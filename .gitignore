@@ -42,6 +42,7 @@ build/
 *.sqlite
 *.sqlite3
 application.properties
+application-dev.properties
 application.yml
 .idea/workspace.xml
 node_modules/
