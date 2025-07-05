@@ -1,0 +1,52 @@
+package com.liliSolution.filmListNew.listFilm.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "filme")
+public class Filme {
+    private Long id;
+    private String titulo;
+    private String genero;
+    private String sinopse;
+    private String diretor;
+    private String anoLancamento;
+    
+    public Long getId() {
+        return id;
+    }
+    public String getTitulo() {
+        return titulo;
+    }
+    public String getGenero() {
+        return genero;
+    }
+    public String getSinopse() {
+        return sinopse;
+    }
+    public String getDiretor() {
+        return diretor;
+    }
+    public String getAnoLancamento() {
+        return anoLancamento;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+    public void setSinopse(String sinopse) {
+        this.sinopse = sinopse;
+    }
+    public void setDiretor(String diretor) {
+        this.diretor = diretor;
+    }
+    public void setAnoLancamento(String anoLancamento) {
+        this.anoLancamento = anoLancamento;
+    }
+}
