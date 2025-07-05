@@ -18,12 +18,16 @@ public class FilmeService {
         this.filmeRepository = filmeRepository;
     }
 
-    public List<Filme> ListarFilmes(){
+    public List<Filme> listarFilmes(){
         Sort sort = Sort.by("titulo").ascending();
         return filmeRepository.findAll(sort);
     }
 
-    public List<Filme> EditarFilme(Long id, Filme filme) {
+    public Filme cadastrarFilme(Filme filme){
+        return filmeRepository.save(filme);
+    }
+
+    public Filme editarFilme(Long id, Filme filme) {
         Optional<Filme> filmeExistente = filmeRepository.findById(id);
         
         if(filmeExistente.isPresent()){
@@ -31,17 +35,15 @@ public class FilmeService {
             filmeRepository.save(filme);
         }
 
-        return ListarFilmes();
+        return filme;
     }
 
-    public List<Filme> DeletarFilme(Long id){
+    public void deletarFilme(Long id){
         Optional<Filme> filmeExistente = filmeRepository.findById(id);
         
         if(filmeExistente.isPresent()){
             filmeRepository.deleteById(id);
         }
-
-        return ListarFilmes();
     }
     
 }
