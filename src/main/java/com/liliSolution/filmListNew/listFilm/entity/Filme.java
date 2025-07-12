@@ -15,9 +15,9 @@ public class Filme {
     private Long id;
     private String titulo;
     private String genero;
-    private String sinopse;
     private String diretor;
     private String anoLancamento;
+    private String sinopse;
     
     public Long getId() {
         return id;
