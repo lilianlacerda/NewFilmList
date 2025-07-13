@@ -14,6 +14,15 @@ import com.liliSolution.filmListNew.listFilm.exception.MoovieTituloException;
 
 @ControllerAdvice
 public class FilmeControllerAdvice extends ResponseEntityExceptionHandler{
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> erro(){
+
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("message", "Ocorreu um erro inesperado.");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
     
     @ExceptionHandler(MoovieNullException.class)
     public ResponseEntity<Object> captureErroNull(){
