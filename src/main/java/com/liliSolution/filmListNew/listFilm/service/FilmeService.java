@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.liliSolution.filmListNew.listFilm.entity.Filme;
+import com.liliSolution.filmListNew.listFilm.exception.MoovieNullException;
+import com.liliSolution.filmListNew.listFilm.exception.MoovieTituloException;
 import com.liliSolution.filmListNew.listFilm.repository.FilmeRepository;
 
 @Service
@@ -23,11 +25,18 @@ public class FilmeService {
         return filmeRepository.findAll(sort);
     }
 
-    public Filme cadastrarFilme(Filme filme){
+    public Filme cadastrarFilme(Filme filme) throws Exception{
+        if(filme.getTitulo() == null || filme.getGenero() == null){
+            throw new MoovieNullException();
+        }
+        if(filmeRepository.existsByTitulo(filme.getTitulo())){
+                throw new MoovieTituloException(); 
+        }     
         return filmeRepository.save(filme);
     }
 
     public Filme editarFilme(Long id, Filme filme) {
+        //optional serve para verificar se o filme existe
         Optional<Filme> filmeExistente = filmeRepository.findById(id);
         
         if(filmeExistente.isPresent()){

@@ -33,13 +33,17 @@ public class FilmeController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Filme> cadastrarFilme(@RequestBody Filme filme){
+    public ResponseEntity<Filme> cadastrarFilme(@RequestBody Filme filme) throws Exception{
+        // FilmeNovo serve para armazenar o filme retornado após o cadastro
+        // Isso é útil para retornar o filme com o ID gerado pelo banco de dados
         Filme filmeNovo = filmeService.cadastrarFilme(filme);
         return ResponseEntity.ok().body(filmeNovo);
     }
 
     @PutMapping("/editar/{id}")
     public ResponseEntity<Filme> editarFilme(@PathVariable Long id, @RequestBody Filme filme){
+        // Verifica se o filme existe e o edita
+        // Se não existir, o método editarFilme do serviço não vai funcioanr
         Filme filmeEditado = filmeService.editarFilme(id, filme);
         return ResponseEntity.ok().body(filmeEditado);
     }
