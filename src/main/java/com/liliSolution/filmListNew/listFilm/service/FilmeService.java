@@ -45,37 +45,48 @@ public class FilmeService {
 
     public List<FilmeDTO> listarFilmes(){
         Sort sort = Sort.by("titulo").ascending();
-        return filmeRepository.findAll(sort);
+        List<Filme> filmes = filmeRepository.findAll(sort);
+        return filmes.stream()
+                    .map(this::converterFilmeParaDTO)
+                    .collect(Collectors.toList());
     }
 
-    public Filme cadastrarFilme(Filme filme) throws Exception{
-        if(filme.getTitulo() == null || filme.getGenero() == null){
+    public Filme cadastrarFilme(FilmeDTO filmeDTO) throws Exception{
+        if(filmeDTO.getTitulo() == null || filmeDTO.getGenero() == null){
             throw new MoovieNullException();
         }
-        if(filmeRepository.existsByTitulo(filme.getTitulo())){
+        if(filmeRepository.existsByTitulo(filmeDTO.getTitulo())){
                 throw new MoovieTituloException(); 
-        }     
+        } 
+        Filme filme = converterDTOParaFilme(filmeDTO);    
         return filmeRepository.save(filme);
     }
 
-    public Filme editarFilme(Long id, Filme filme) {
+    public FilmeDTO editarFilme(Long id, FilmeDTO filmeDTO) throws Exception {
         //optional serve para verificar se o filme existe
         Optional<Filme> filmeExistente = filmeRepository.findById(id);
         
         if(filmeExistente.isPresent()){
-            filme.setId(id);
-            filmeRepository.save(filme);
+            Filme filme = filmeExistente.get();
+            filme.setTitulo(filmeDTO.getTitulo());
+            filme.setGenero(filmeDTO.getGenero());
+            filme.setDiretor(filmeDTO.getDiretor());
+            filme.setAnoLancamento(filmeDTO.getAnoLancamento());
+            filme.setSinopse(filmeDTO.getSinopse());
+
+            Filme filmeAtualizado = filmeRepository.save(filme);
+            return converterFilmeParaDTO(filmeAtualizado);
         }
 
-        return filme;
+        throw new Exception();
     }
 
-    public void deletarFilme(Long id){
-        Optional<Filme> filmeExistente = filmeRepository.findById(id);
-        
-        if(filmeExistente.isPresent()){
-            filmeRepository.deleteById(id);
+    public void deletarFilme(Long id) throws MoovieDeleteException{
+        if(!filmeRepository.findById(id).isPresent()){
+            throw new MoovieDeleteException();
         }
+
+        filmeRepository.deleteById(id);
     }
     
 }
