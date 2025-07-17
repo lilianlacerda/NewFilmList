@@ -15,10 +15,9 @@ public class Filme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String titulo;
-    @NotBlank
+    @Column(nullable = false)
     private String genero;
     private String diretor;
     private String anoLancamento;
